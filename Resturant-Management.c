@@ -152,7 +152,7 @@ int main(){
 
 			default:
 			printf("Invalid Option");
-			exit(1)     // if invalid option is selction in the menu 
+			exit(1);     // if invalid option is selction in the menu 
 		}	                              //the program will exit
 	  }  
  }
@@ -238,12 +238,12 @@ void addItem(){
 	printf("Enter the number items to be added to the menu: \n");  //to get no of items to be inputted
 	scanf("%d",&n); 
 	if(n + no_items > MAX_ITEMS ){  //Checking if the added no of items will not exceed menu limit
-		printf("Items will exceed menu limit by %d",MAX_ITEMS - (n+no_items))
+		printf("Items will exceed menu limit by %d",MAX_ITEMS - (n+no_items));
 	}
 	else{
 		break;  //ending the loop
 	}               
-    }while(1)           
+    }while(1);           
 	getchar();                  //clearing the buffer to remove any next line character
 	for(i=0; i< n;i++){
 		
@@ -586,3 +586,4 @@ float paymentsystem(float total_amount,float net_amount,int *method, float *cash
     }
 	return discount;           //returning the discount
 }
+
