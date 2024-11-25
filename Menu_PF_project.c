@@ -10,18 +10,15 @@ typedef struct{
     float price;
 }menuitem;
 
-
-
-int no_items = 3;
-int initial_item = 3;
+int no_items = 15;
+int initial_item = 15;
  menuitem item[]={
- {1, "Burger", 25.56},
- {2, "Pizza", 20.89},
- {3, "Fries", 10.00}
+ {1, "Zinger Burger", 25.56},{2, "Chicken Burger", 20.89},{3, "Beef Burger", 27.00},
+ {4, "Steak Burger",30.35},{5,"Chicken Tikka Pizza",20.36},{6,"Cheese Pizza",15.96},
+ {7,"Chicken Tikka Boti",17.85},{8,"Chicken Malai Boti",18.85},{9,"Beef Behari Boti",19.85},
+ {10,"Chicken Tikka Boti Roll",20.25},{11,"Chicken Malai Boti Roll",20.25},{12,"Beef Boti Roll",22.25},
+ {13,"Paratha",2.50},{14,"Water 1.5L",0.99},{15,"Cold Drink",1.99}
  };
-
-
-
 
 void createMenu(){
 	
@@ -30,6 +27,7 @@ void createMenu(){
 		fclose(menu);
 		return;
 	}
+
 	
     menu=fopen("menu.txt","w");
     
@@ -192,8 +190,32 @@ void removeItem(){
 	printf("Item removed \n");
 }
 
+
+int validation(){
+	char username[20];
+	char password[20];
+
+    getchar();
+	printf("Username:");
+	fgets(username,20,stdin);
+	username[strcspn(username, "\n")] = 0;
+
+	printf("Password:");
+	fgets(password,20,stdin);
+	password[strcspn(password, "\n")] = 0;
+
+	if(strcmp(username,"A") == 0 && strcmp(password,"A") == 0){
+		return 1;
+	}
+	else{
+		printf("Invalid Username or Password");
+		return -1;
+	}
+
+}
 int main(){
 	int option,choice,n,i;
+	    createMenu();
 	while(1){
 	printf("Are you \n1.Management\n2.Customer \n");
 	printf("Please Select a valid option\n");
@@ -202,14 +224,10 @@ int main(){
 		printf("Invalid Selection \n select again\n");
 		continue;
 	    }
-	else{
-		break;
-	    }
-	}
 
-    createMenu();
-     
-	if(option == 1){
+
+    if(option == 1){
+	if(validation() == 1){
 	 do{
 		printf("1.View the menu\n");
 		printf("2.Add items to the menu\n");
@@ -222,8 +240,7 @@ int main(){
 		switch(choice){
 			case 1:
             displayMenu();
-            system("pause");
-            system("cls");
+
 			break;
 
 
@@ -232,8 +249,7 @@ int main(){
 			addItem();
 			saveMenu();
 			displayMenu();
-			system("pause");
-            system("cls");
+
 			break;
 
 
@@ -246,8 +262,7 @@ int main(){
 				saveMenu();
 				displayMenu();
 			}
-			system("pause");
-            system("cls");
+
 			break;
 
 			case 4:
@@ -260,7 +275,7 @@ int main(){
 				displayMenu();
 			}
 			system("pause");
-            system("cls");
+         system("cls");
 			break;
 
 			case 5:
@@ -270,12 +285,13 @@ int main(){
 			break;
 
 			default:
-			printf("Invalid Selection");
+			printf("Invalid Selection\n");
 		}
 	 }while(choice != 5);
-    
+	  }
 	}
 	else if(option == 2){
 		displayMenu();
 	}
+}
 }
