@@ -146,18 +146,19 @@ int main(){
 		printf("\t\tSelection:");        // prompting for the selection
 		scanf("%d",&choice);
 
-switch(choice){
-	    case 1:
-	    system("color 0F");       // clearing screen and changing the color
-	    system("cls");
-	    takeOrder();            // Calling a function to take order and show the recipt
-	    system("pause");
-	    break;
+		switch(choice){
+			case 1:
+			system("color 0F");       // clearing screen and changing the color
+			system("cls");
+			takeOrder();            // Calling a function to take order and show the recipt
+			system("pause");
+			break;
 			
             case 2:
             system("color 0F");
             system("cls");
 			printf("Sorry Customer \n curretly Reservation system is under work\n");
+			break;
             	
             case 3:
 			printf("Exiting\n");
@@ -168,6 +169,7 @@ switch(choice){
 			default:
 			printf("Invalid Option\n");
 			system("pause");
+			break;
 		}	                             
 	  }while(choice != 3);
      }
@@ -265,7 +267,7 @@ void addItem(){
 		
 		printf("\nEnter the name of the item: ");
 		fgets(name,sizeof(name),stdin);            
-	    name[strcspn(name,"\n")] = 0;
+	    name[strcspn(name,"\n")] = '\0';
 
 		printf("Enter the price of the item:");
 		scanf("%f", &price);                     //name and price of the new item
@@ -308,7 +310,7 @@ void updateItem(){
 		printf("Enter the new name:");     
 		getchar();
 		fgets(newname,sizeof(newname),stdin);
-	    newname[strcspn(newname,"\n")] = 0; // to get new name
+	    newname[strcspn(newname,"\n")] = '\0'; // to get new name
 		strcpy(item[id-1].name,newname);
 		printf("Item has been updated\n"); //to update the new name
 	    printf("Id:%d \nname:%s \nprice:%.2f\n\n",id,item[id-1].name,item[id-1].price);
@@ -318,7 +320,7 @@ void updateItem(){
 		printf("Enter the new name:");
 		getchar();
 		fgets(newname,sizeof(newname),stdin);  //get new name
-	    newname[strcspn(newname,"\n")] = 0;
+	    newname[strcspn(newname,"\n")] = '\0';
 		strcpy(item[id-1].name,newname);
 		printf("Enter the new price:");  //to get new price
 		scanf("%f",&newprice);
@@ -366,11 +368,11 @@ int validation(){
 	printf("\n\n\n\t\t\tUsername:");       
 	getchar();             //clearing the new line character 
 	fgets(username,20,stdin);        
-	username[strcspn(username, "\n")] = 0; //removing the new line at the end of the input
+	username[strcspn(username, "\n")] = '\0'; //removing the new line at the end of the input
 
 	printf("\t\t\tPassword:");
 	fgets(password,20,stdin);
-	password[strcspn(password, "\n")] = 0;   //removing the new line at the end of the input
+	password[strcspn(password, "\n")] = '\0';   //removing the new line at the end of the input
 	system("color 0F");         //clearing the screen and changing the color
 	system("cls");
 
@@ -412,7 +414,7 @@ void givefeedback(){
 		printf("Please enter your feedback:\n");
 		getchar();            //cleaaring the buffer
 		fgets(feedbackText, sizeof(feedbackText),stdin);   //getting feedback
-		feedbackText[strcspn(feedbackText, "/n")] =0;
+		feedbackText[strcspn(feedbackText, "/n")] = '\0';
 		savefeedback(feedbackText);  //saving feedback
 		printf("Thank you for your feedback.\n");
 		printf("Thank you for being our guest. \n");
@@ -439,7 +441,7 @@ void viewfeedback(){
 }
 
 void takeOrder(){
-    int orderID, quantity, dineInOption,card_type;
+    int orderID, quantity, dineInOption = 0,card_type = 0;
     float total = 0.0, cash = 0.0;
     char moreOrders = 'y';
 	int method = 0;
@@ -466,12 +468,13 @@ void takeOrder(){
         do{
         printf("Enter the quantity of %s: ", item[orderID - 1].name);
         scanf("%d", &quantity);   //gettig the quantity of the item
-		if(quantity > 0){
+		if(quantity > 0 || quantity < 100){
 			break;
 		}
 		else{
 			printf("Invalid quantity\n");
 		}
+		
 	    }while(1);
 
         int i;
@@ -496,54 +499,66 @@ void takeOrder(){
         
  
         printf("You ordered %d x %s. Item Total: %.2f\n", quantity, item[orderID - 1].name, itemTotal);
+        
         //printing the item ordered with quantity
+        
+        while(1){
         printf("Would you like to order another item? (y/n): ");
         getchar();         
         scanf("%c", &moreOrders);
+        
+        if(moreOrders == 'y' || moreOrders == 'n' || moreOrders == 'Y' || moreOrders == 'N'){
+        break;
+		}
+		else{
+		printf("Please enter y or n \n");
+        	getchar();
+		}
+     	}
     }
 
     float net_amount = total + total*tax_rate;      //calculating net total with tax rate
 	float discount = paymentsystem(total,net_amount,&method,&cash,&card_type);
 
     net_amount = net_amount - net_amount*discount; // calculting the net total with discount
-	printf("Net amount: %.2f",net_amount);
+	printf("Net amount: %.2f\n",net_amount);
 
 	givefeedback(); // getting the feed back
     
 	//printing the recipt 
 
-    printf("\n____________________________________________________________\n");
-    printf("                     Receipt\n");
-    printf("____________________________________________________________\n");
-    printf("Dine-in option: %s\n", dineInOption == 1 ? "Dine-in" : "Takeaway");
-	printf("Item(s) ordered:\n");
+    printf("\n\t\t____________________________________________________________\n");
+    printf("\t\t                     Receipt\n");
+    printf("\t\t____________________________________________________________\n");
+    printf("\t\tDine-in option: %s\n", dineInOption == 1 ? "Dine-in" : "Takeaway");
+	printf("\t\tItem(s) ordered:\n");
 		int i;
 		for (i = 0; i < orderCount; i++) {
     int itemId = order[i].itemId;
     int quantity = order[i].quantity;
     float itemTotal = item[itemId - 1].price * quantity;
     
-    printf("%d x %s = %.2f\n", quantity, item[itemId - 1].name, itemTotal); // showing the order
+    printf("\t\t%d x %s = %.2f\n", quantity, item[itemId - 1].name, itemTotal); // showing the order
     }
-    printf("____________________________________________________________\n");
-    printf("Total amount: %.2f\n", total);
-	printf("Sales tax:%.2f\n", total*tax_rate);     //printing total,tax rate ,discount and net total
-    printf("Total Discount:%.2f%%\n",discount);
-	printf("Net Amount:%.2f\n",net_amount);
+    printf("\t\t____________________________________________________________\n");
+    printf("\t\tTotal amount: %.2f\n", total);
+	printf("\t\tSales tax:%.2f\n", total*tax_rate);     //printing total,tax rate ,discount and net total
+    printf("\t\tTotal Discount:%.2f%%\n",discount);
+	printf("\t\tNet Amount:%.2f\n",net_amount);
 	if(method == 1){               //printing payment method
 		if(card_type == 1){
-			printf("Payment method: Credit Card\n");
+			printf("\t\tPayment method: Credit Card\n");
 		}
 		else{
-			printf("Payment method: Debit Card\n");
+			printf("\t\tPayment method: Debit Card\n");
 		}
 	}else if(method == 2){
-		printf("Payment method: Cash");        //printing cash paid and change returned
-		printf("Total Cash Paid:%.2f\n",cash);
-		printf("Change returned:%.2f\n",cash-net_amount);
+		printf("\t\tPayment method: Cash");        //printing cash paid and change returned
+		printf("\t\tTotal Cash Paid:%.2f\n",cash);
+		printf("\t\tChange returned:%.2f\n",cash-net_amount);
 	}
-    printf("____________________________________________________________\n");
-    printf("Thank you for your order!\n");
+    printf("\t\t____________________________________________________________\n");
+    printf("\t\tThank you for your order!\n");
 
 	viewfeedback();
 }
@@ -553,25 +568,28 @@ void takeOrder(){
 float paymentsystem(float total_amount,float net_amount,int *method, float *cash,int * card_type) {
     float discount = 0.0;
     float card_balance,pay_cash;
-	int pay_method,pay_card_type;
+	int pay_method,pay_card_type = 0;
      
      if (total_amount > 5000) {
         discount = 0.20;          //checking if the total exceed the amount to get discount
     } 
     
+
     printf("\nSelect Payment Method\n");
     printf("For Card (Enter 1) || For Cash (Enter 2): ");
     scanf(" %d", &pay_method);
 	*method = pay_method;       //selecting the payment method
+    float total_cash = 0;
     
     if (*method == 2) {
 		do{
         printf("Enter the cash you have paid: ");
-        scanf("%f", &pay_cash);                //to get the cash paid
-		*cash = pay_cash;
+        scanf("%f", &pay_cash);      //to get the cash paid
+		total_cash += pay_cash;                
+		*cash = total_cash;
 
-        if (*cash < net_amount) {    //checking if the cash paid is enough
-            printf("You need %.2f more to complete the payment.\n", *cash - net_amount);
+        if (*cash < net_amount) {   //checking if the cash paid is enough
+            printf("You need %.2f more to complete the payment.\n", net_amount-*cash);
 			continue;
         } else {
             printf("Payment successful. Thank you for your order!\n");
@@ -593,7 +611,7 @@ float paymentsystem(float total_amount,float net_amount,int *method, float *cash
         if (*card_type == 1) {      //discount based on the card type
             discount += 0.10;       
         } else if (*card_type == 2) {    
-        	
+              
         } else  {
             printf("Invalid card type!\n");
         }
