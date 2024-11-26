@@ -126,35 +126,51 @@ int main(){
 			break;
 
 			default:
-			printf("Invalid Selection\n");      // if invalid input is enter when asked for 
-		}                                       // selection in the menu
-	 }while(choice != 6);          // loop will not end until selected in the menu
-	  }
+			printf("Invalid Selection\n"); // if invalid input is enter when asked for 
+			system("pause");               // selection in the menu
+		}                                 // loop will not end until selected in the menu       
+  }while(choice != 6);  
 	}
+}
 	else if(option == 2){
+		do{
 		system("cls");            //clearing the screen and changing the color
 		system("color 03");
 		printf("\n\t\t-------------------------------\n");
 		printf("\n\t\t Welcome Customer\n\n");
 		printf("\t\tPlease Select a Valid option\n");
-		printf("\t\t1.For Order");
+		printf("\t\t1.For Order\n");
+		printf("\t\t2.For Reservation\n");
+		printf("\t\t3.To exit");
 		printf("\n\t\t-------------------------------\n");
 		printf("\t\tSelection:");        // prompting for the selection
 		scanf("%d",&choice);
 
-		switch(choice){
-			case 1:
-			system("color 0F");       // clearing screen and changing the color
-			system("cls");
-			takeOrder();            // Calling a function to take order and show the recipt
-			system("pause");
-			break;
-
+switch(choice){
+	    case 1:
+	    system("color 0F");       // clearing screen and changing the color
+	    system("cls");
+	    takeOrder();            // Calling a function to take order and show the recipt
+	    system("pause");
+	    break;
+			
+            case 2:
+            system("color 0F");
+            system("cls");
+			printf("Sorry Customer \n curretly Reservation system is under work\n");
+            	
+            case 3:
+			printf("Exiting\n");
+			system("pause");         //exiting the management menu
+            system("cls");
+			break;	
+            	
 			default:
-			printf("Invalid Option");
-			exit(1);     // if invalid option is selction in the menu 
-		}	                              //the program will exit
-	  }  
+			printf("Invalid Option\n");
+			system("pause");
+		}	                             
+	  }while(choice != 3);
+     }
  }
  return 0;
 }
