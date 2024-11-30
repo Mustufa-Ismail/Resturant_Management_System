@@ -107,7 +107,6 @@ int main(){
             system("pause");            // ask for an input to proceed
 			break;
 
-
 			case 2:
 		    system("cls");            //clear the screen, display the menu
 			displayMenu();  
@@ -152,11 +151,10 @@ int main(){
             printf("Invalid meal selection.\n");
             continue;
         }
-
         Reservation *selected_res = (meal == 1) ? lunch_res : dinner_res; //ternary if; choosing lunch if the user presses 1 or choosing dinner
         const char *meal_name = (meal == 1) ? "Lunch" : "Dinner";
-
-			view_reservations(selected_res, meal_name);
+		view_reservations(selected_res, meal_name);
+		break;
 
 			case 7:
 			printf("Exiting\n");
@@ -197,26 +195,25 @@ int main(){
             system("color 0B");
             system("cls");
 	       
-    int choice, meal;
-    while (1) { 	// The loop will keep running as the condition is always true
-        printf("   Reservation System:\n");
-        printf("1. Add Reservation\n");
-        printf("2. Remove Reservation\n");
-        printf("3. View Reservations\n");
-        printf("4. Exit\n");
-        printf("Enter your choice: ");
-        scanf("%d", &choice);
+             int choice, meal;
+            while (1) { 	// The loop will keep running as the condition is always true
+             printf("   Reservation System:\n");
+             printf("1. Add Reservation\n");
+             printf("2. Cancel Reservation\n");
+             printf("3. View Reservations\n");
+             printf("4. Exit\n");
+             printf("Enter your choice: ");
+             scanf("%d", &choice);
          
-
-        if (choice == 4) { // to exit the program
-            break;
-        }
-        system("color 0A");
-        printf("Select Meal (1. Lunch, 2. Dinner): "); //Input which meal the user wants
-        scanf("%d", &meal); /*Once the user enters the characters, they are temporarily stored in the buffer. 
+            if (choice == 4) { // to exit the program
+             break;
+           }
+         system("color 0A");
+         printf("Select Meal (1. Lunch, 2. Dinner): "); //Input which meal the user wants
+         scanf("%d", &meal); /*Once the user enters the characters, they are temporarily stored in the buffer. 
 							And when the program processes the characters, some are left in the buffer. 
 							To avoid leftover characters stay in the buffer, we use getchar() function */
-        getchar(); // Flush input buffer; flush out the leftover characters in the buffer to avoid any errors
+         getchar(); // Flush input buffer; flush out the leftover characters in the buffer to avoid any errors
 
         if (meal < 1 || meal > 2) { //Meal must only be Lunch or Dinner
             printf("Invalid meal selection.\n");
