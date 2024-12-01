@@ -137,6 +137,7 @@ int main(){
 			case 5:
 			system("cls");      //clearing the screen and showing the feedback
 			viewfeedback();
+			system("pause");
 			break;
 
 			case 6:
@@ -154,6 +155,7 @@ int main(){
         Reservation *selected_res = (meal == 1) ? lunch_res : dinner_res; //ternary if; choosing lunch if the user presses 1 or choosing dinner
         const char *meal_name = (meal == 1) ? "Lunch" : "Dinner";
 		view_reservations(selected_res, meal_name);
+		system("pause");
 		break;
 
 			case 7:
@@ -263,13 +265,7 @@ int main(){
 
 void createMenu(){
 
-	FILE *menu= fopen("menu.txt","r");
-	if(menu != NULL){                   // checking if the file exist
-		fclose(menu);      // if the file exists funtion ends
-		return;
-	}
-
-    menu=fopen("menu.txt","w");       //creating the menu file if it doesnt exit 
+FILE *menu=fopen("menu.txt","w");       //creating the menu file if it doesnt exit 
     
  if(menu == NULL){     // error message if file doesnt open
 	printf("ERROR,unable to create menu\n");      
