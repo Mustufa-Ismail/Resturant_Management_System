@@ -495,7 +495,7 @@ void givefeedback(){
 		printf("Please enter your feedback:\n");
 		getchar();            //cleaaring the buffer
 		fgets(feedbackText, sizeof(feedbackText),stdin);   //getting feedback
-		feedbackText[strcspn(feedbackText, "/n")] = '\0';
+		feedbackText[strcspn(feedbackText, "\n")] = '\0';
 		savefeedback(feedbackText);  //saving feedback
 		printf("Thank you for your feedback.\n");
 		printf("Thank you for being our guest. \n");
